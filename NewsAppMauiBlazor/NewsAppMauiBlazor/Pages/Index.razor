@@ -1,0 +1,21 @@
+﻿@page "/"
+@inject NewsService newsService
+@inject LocalStorageService storageService
+@inject IPreferences simpleStorage
+
+<div class="flex-row">
+    @foreach(string feed in feeds)
+    {
+        <FeedButton Feed="@feed" @onchange="OnRadioSelect" Checked="@(feed == activeFeed)"/>
+    }
+</div>
+
+<div class="flex-column">
+    @if (News != null)
+    {
+        @foreach (NewsModel model in News)
+        {
+            <NewsLink Model="@model" />
+        }
+    }
+</div>

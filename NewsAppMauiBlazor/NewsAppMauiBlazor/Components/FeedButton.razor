@@ -1,0 +1,21 @@
+﻿<div>
+    <input type="radio" style="display: none" name="feed-radio" value="@Feed" checked="@Checked" />
+    <label class="feed-button @(Checked ? "selected" : "")" @onclick="UpdateSelection" for="@Feed">@Feed</label>
+</div>
+
+@code {
+    [Parameter]
+    public string Feed { get; set; }
+
+    [Parameter]
+    public bool Checked { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> onchange { get; set; }
+
+    private async void UpdateSelection()
+    {
+        Checked = !Checked;
+        await onchange.InvokeAsync(new ChangeEventArgs() {Value= Feed});
+    }
+}

@@ -1,0 +1,18 @@
+﻿@inject LocalStorageService service
+
+<div class="flex-column filter">
+    <span>Name: @filter.Name</span>
+    <span>Word: @filter.Value</span>
+    <button class="btn-danger" @onclick="DeleteFilter">Remove</button>
+</div>
+
+@code 
+{
+    [Parameter]
+    public FilterRule filter { get; set; }
+
+    public void DeleteFilter()
+    {
+        service.RemoveFromCollection(filter.Name, "filterRules");
+    }
+}

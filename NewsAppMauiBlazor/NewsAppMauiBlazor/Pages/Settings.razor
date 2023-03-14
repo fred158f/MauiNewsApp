@@ -1,0 +1,24 @@
+﻿@page "/settings"
+@inject LocalStorageService storageService
+@inject IPreferences simpleStorage
+<h1>Indstillinger</h1>
+
+<div class="flex-column">
+    <div class="column-item">
+        <button class="btn-switch @(filterActivated == true? "switch-selected" : "")" @onclick="@EnableFilter">@(filterActivated == true ? "Disable" : "Enable") Filters</button>
+        <button class="btn-danger" @onclick="ClearFilters">Clear filters</button>
+    </div>
+</div>
+<div class="filter-box">
+    <button class="btn-custom" @onclick="@SetParameters">Add filter</button>
+    <div class="flex-row">
+        @if (filterRules != null)
+        {
+            @foreach (FilterRule rule in filterRules)
+            {
+                <FilterComponent filter="@rule" />
+            }
+        }
+    </div>
+</div>
+

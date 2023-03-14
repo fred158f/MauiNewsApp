@@ -1,0 +1,65 @@
+﻿@inject LocalStorageService storageService
+<div class="flex-column">
+    <label class="error-message @(isValid ? "hidden" : "")">@errorMessage</label>
+    <label>Filter name:</label>
+    <input @bind="@filter.Name" />
+    <label>Word:</label>
+    <input @bind="@filter.Value" />
+    <select @bind="@filter.ruleType">
+        @for (int i = 0; i < (int)ERuleType.NbrOfItems; i++)
+        {
+            <option value="@((ERuleType)i)" label="@((ERuleType)i)" />
+        }
+    </select>
+    <div>
+        <button class="btn-custom" @onclick="SaveSetting">Add</button>
+        <button class="btn-custom" @onclick="CloseModal">Cancel</button>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public BlazoredModalInstance Modal { get; set; }
+
+    [Parameter]
+    public string filterCollectionName { get; set; } = "filterRules";
+
+    private bool isValid = true;
+    private string errorMessage = "";
+    private FilterRule filter;
+
+    protected override void OnParametersSet()
+    {
+        filter = new FilterRule();
+        base.OnParametersSet();
+    }
+
+    private async void CloseModal()
+    {
+        await Modal.CloseAsync();
+    }
+
+    private async void SaveSetting()
+    {
+        if (filter.Value != string.Empty && filter.Name != string.Empty)
+        {
+            if ((await storageService.ObjectExists(filter.Name)) == false)
+            {
+                FilterRuleDtoModel toSave = new FilterRuleDtoModel((int)filter.ruleType, filter.Name, filter.Value);
+                storageService.SaveObjectToCollection(toSave, toSave.Name, filterCollectionName);
+                CloseModal();
+            }
+            else
+            {
+                errorMessage = "Name already in use";
+                isValid = false;
+            }
+        }
+        else
+        {
+            errorMessage = "Empty fields are not allowed!";
+            isValid = false;
+        }
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,20 @@
+﻿.feed-button {
+    background-color: midnightblue;
+    transition: ease-in-out 0.2s;
+    border-color: midnightblue;
+    border: 2px solid midnightblue;
+    padding: 3px;
+    color: white;
+}
+
+    .feed-button:hover {
+        background: linear-gradient(midnightblue, royalblue);
+        background-color: midnightblue;
+        border-bottom: 2px dashed white;
+    }
+
+.selected {
+    border-bottom: 2px groove #FF00FF;
+    color: #FF00FF;
+    font-weight: bold;
+}

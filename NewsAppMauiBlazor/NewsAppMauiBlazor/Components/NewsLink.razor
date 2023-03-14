@@ -1,0 +1,17 @@
+﻿@inject IBrowser browser
+
+<div @onclick="@OnClickLink" class="flex-column news-link">
+    <span class="news-time">@Model.TimeStamp.ToString()</span>
+    <span class="news-title">@Model.Title</span>
+    <span class="news-sum">@Model.Summary</span>
+</div>
+
+@code {
+    [Parameter]
+    public NewsModel Model { get; set; }
+
+    private void OnClickLink()
+    {
+        browser.OpenAsync(Model.SourceLink);
+    }
+}
